@@ -1,4 +1,4 @@
-TransactionID,CustomerID,TransactionAmount, TransactionType,MerchantCategory,TransactionDate,TransactionTime,Location,DeviceType,IsFraud
+TransactionID,CustomerID,TransactionAmount,TransactionType,MerchantCategory,TransactionDate,TransactionTime,Location,DeviceType,IsFraud
 1,1393,229.61,Online,Services,9/1/2024,13:38:00,SG,Desktop,1
 2,1584,1336.54,Online,Services,29/1/2024,17:09:00,ID,Desktop,1
 3,1305,1104.95,Online,Retail,9/1/2024,23:35:00,TH,Tablet,1
