@@ -2,13 +2,27 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# Load dataset
+# ============================
+# LOAD DATA
+# ============================
 df = pd.read_csv("transactions.csv")
+df.columns = df.columns.str.strip()   # remove accidental spaces
 
-# Load model
+# ============================
+# LOAD MODEL
+# ============================
 with open("fraud_model.pkl", "rb") as f:
     model = pickle.load(f)
 
+# ============================
+# LOAD TRAINING COLUMNS
+# ============================
+with open("training_columns.pkl", "rb") as f:
+    training_columns = pickle.load(f)
+
+# ============================
+# STREAMLIT UI
+# ============================
 st.title("Fraud Detection Dashboard")
 
 st.subheader("Dataset Preview")
@@ -32,14 +46,17 @@ input_data = pd.DataFrame([{
     "DeviceType": device
 }])
 
-# One-hot encode to match training
+# ============================
+# ENCODING
+# ============================
 input_encoded = pd.get_dummies(input_data)
-df_encoded = pd.get_dummies(df.drop("IsFraud", axis=1))
 
-# Align columns
-input_encoded = input_encoded.reindex(columns=df_encoded.columns, fill_value=0)
+# Align with training columns (CRITICAL FIX)
+input_encoded = input_encoded.reindex(columns=training_columns, fill_value=0)
 
-# Predict
+# ============================
+# PREDICT
+# ============================
 if st.button("Predict Fraud"):
     prediction = model.predict(input_encoded)[0]
     if prediction == 1:
